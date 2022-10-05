@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProductDetailView: View {
     // MARK: - PROPERTIES
-    let product: Product
+    @EnvironmentObject var shop: Shop
     
     // MARK: - BODY
     var body: some View {
@@ -19,11 +19,11 @@ struct ProductDetailView: View {
                 .padding(.horizontal)
                 
             // HEADER
-            HeaderDetailView(product: product)
+            HeaderDetailView()
                 .padding(.horizontal)
             
             // DETAIL TOP PART
-            TopPartDetailView(product: product)
+            TopPartDetailView()
                 .padding(.horizontal)
                 .zIndex(1)
             
@@ -37,7 +37,7 @@ struct ProductDetailView: View {
                 
                 // DESCRIPTION
                 ScrollView(.vertical, showsIndicators: false){
-                    Text(product.description)
+                    Text( shop.selectedProduct?.description ?? sampleProduct.description)
                         .font(.system(.body, design: .rounded))
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.leading)
@@ -48,7 +48,7 @@ struct ProductDetailView: View {
                     .padding(.vertical, 10)
                 
                 // ADD TO CART
-                AddToCartDetailView(product: product)
+                AddToCartDetailView()
                     .padding(.bottom, 20)
                 
             }//: VSTACK
@@ -64,7 +64,10 @@ struct ProductDetailView: View {
         }//: VSTACK
         .zIndex(0)
         .background(
-            Color(red: product.red, green: product.green, blue: product.blue)
+            Color(
+                red: shop.selectedProduct?.red ?? sampleProduct.red,
+                green: shop.selectedProduct?.green ?? sampleProduct.green,
+                blue: shop.selectedProduct?.blue ?? sampleProduct.blue)
         )
         .ignoresSafeArea(edges: .bottom)
        
@@ -74,7 +77,8 @@ struct ProductDetailView: View {
 // MARK: - PREVIEW
 struct ProductDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ProductDetailView(product: sampleProduct)
+        ProductDetailView()
+            .environmentObject(Shop())
 //            .previewLayout(.fixed(width: 375, height: 812))
     }
 }
