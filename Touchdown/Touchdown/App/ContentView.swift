@@ -25,21 +25,29 @@ struct ContentView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 0) {
                         
+                        
                         FeaturedTabView()
                             .frame(height: UIScreen.main.bounds.width / 1.475)
                             .padding(.vertical, 20)
-                            
-                          CategoryGridView()
                         
+                        CategoryGridView()
+                        
+                        // MARK: - PRODUCT
                         TitleView(title: "Helmets")
                         
                         LazyVGrid(columns: gridLayout, spacing: 15) {
                             ForEach(products) { product in
                                 ProductItemView(product: product)
                             }//: LOOP
-                            .padding(15)
                             
                         }//: GRID
+                        .padding(15)
+                        
+                        // MARK: - BRAND
+                        TitleView(title: "Brands")
+                        
+                        BrandGridView()
+                        
                         
                         FooterView()
                             .padding(.horizontal)
